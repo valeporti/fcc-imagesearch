@@ -61,7 +61,7 @@ app.get('/last', function (req, res) {
     //console.log(offset + " && " + search);
     mod.last(function(info) {
         console.log(info);
-        res.end(); //res.json(x) converts json to string 
+        res.json(info); //res.json(x) converts json to string 
     });
 });
 

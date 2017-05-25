@@ -20,7 +20,7 @@ function searchAPI (toS, num, cb) {
     }
     
     //console.log(num);
-    var key = "rr2dqxp3dqf6848rnu3ksc8v"; //remember to put an environnemtn variable process.env.APIkey
+    var key = process.env.APIkey; //remember to put an environnemtn variable process.env.APIkey
     var options = {
         host: 'api.gettyimages.com',
         path: '/v3/search/images?phrase=' + toS,
@@ -83,7 +83,7 @@ function save (toS, cb) {
     //to connect: mongod --port 27017 --dbpath=./data --smallfiles
     //--smallfiles because having a free account doesn't let the program to expand in space.
         
-    //(Focus on This Variable) //process.env.MONGOLAB_URI ... mongodb://vp:urlshort@ds157390.mlab.com:57390/urlshort
+    //(Focus on This Variable) //process.env.MONGOLAB_URI ... 
     var dbUrl = process.env.MONGOLAB_URI || 'mongodb://localhost:27017/C4im';      
     //(Focus on This Variable)
         
