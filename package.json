@@ -1,0 +1,28 @@
+{
+  "name": "imsrch",
+  "version": "1.0.0",
+  "description": "Image search engine, it let you to se a n number of responses and the history of the requests",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.15.2",
+    "html": "^1.0.0",
+    "mongodb": "^2.2.27",
+    "path": "^0.12.7",
+    "strftime": "^0.10.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "freeCodeCamp",
+    "Image",
+    "Search",
+    "Abstraction",
+    "Layer",
+    "valeporti"
+  ],
+  "author": "valeporti",
+  "license": "ISC"
+}

@@ -1,0 +1,143 @@
+//functions to export
+module.exports = {
+    searchAPI,
+    save,
+    last
+};
+
+var https = require('https');
+
+function searchAPI (toS, num, cb) {
+    //console.log(toS);
+    //console.log(num);
+    
+    if (num == undefined) { //handle no offset given
+        num = 10;
+    } else if (num > 30) {
+        num = 30;
+    } else if (num == 0) {
+        cb({error: "it's better if you actually increase the offset ;)"});
+    }
+    
+    //console.log(num);
+    var key = "rr2dqxp3dqf6848rnu3ksc8v"; //remember to put an environnemtn variable process.env.APIkey
+    var options = {
+        host: 'api.gettyimages.com',
+        path: '/v3/search/images?phrase=' + toS,
+        method: 'GET',
+        //url: "https://api.gettyimages.com/v3/search/images/creative?phrase=" + toS,
+        headers: {
+            "Api-Key": key
+        }
+    };
+    //http://stackoverflow.com/questions/37632025/in-a-nodejs-app-how-do-i-make-an-http-client-request-inside-an-express-method
+    https.get(options, function(response) {
+        var body = "";
+        var jsonB = {};
+        var json = {};
+        var arr = [];
+        response.on("data", function(d) {
+            //console.log(d);
+            body += d;
+        });
+        response.on("end",function() {
+            jsonB = JSON.parse(body);
+            //console.log(jsonB.images[0].display_sizes[0].uri);
+            for (var i = 0; i < num; i ++) {
+                json["image " + (i + 1)] = {//json = {
+                    title: jsonB.images[i].title,
+                    url: jsonB.images[i].display_sizes[0].uri
+                };
+                //arr.push(json);
+            }
+            cb(json); //cb(arr);
+        });
+    });
+}
+
+function save (toS, cb) {
+    var date;
+    var strftime = require('strftime');
+    //var strftimeMX = strftime.localizeByIdentifier('es_MX');
+    date = new Date(); 
+    //var timeOff = new Date('1/1/2009').getTimezoneOffset();
+    //console.log("off " + timeOff); //doesn't work.. it doesn't detects the offset minutes
+    //var dateSt = strftimeMX('%B %d, %Y', date); //da la fecha en español
+    var dateSt = strftime('%B %d, %Y', date); //https://github.com/samsonjs/strftime
+    console.log(dateSt);
+    var json = {};
+    json = {
+        term: toS,
+        when: dateSt
+    };
+    
+    //SAVE IT IN THE DATABAS
+    
+    var mongodb = require('mongodb');
+        
+    //We need to work with "MongoClient" interface in order to connect to a mongodb server.
+    var MongoClient = mongodb.MongoClient;
+        
+    // Connection URL. This is where your mongodb server is running.
+        
+    //to connect: mongod --port 27017 --dbpath=./data --smallfiles
+    //--smallfiles because having a free account doesn't let the program to expand in space.
+        
+    //(Focus on This Variable) //process.env.MONGOLAB_URI ... mongodb://vp:urlshort@ds157390.mlab.com:57390/urlshort
+    var dbUrl = process.env.MONGOLAB_URI || 'mongodb://localhost:27017/C4im';      
+    //(Focus on This Variable)
+        
+    // Use connect method to connect to the Server
+    MongoClient.connect(dbUrl, function (err, db) {
+        if (err) {
+            console.log('Unable to connect to the mongoDB server. Error:', err);
+            cb(err);
+        } else {
+            console.log('Connection established to', dbUrl);
+            var done = db.collection('done');
+            done.insert(json)
+            db.close();
+            cb();
+        }
+    });
+}
+
+function last(cb) {
+    var mongodb = require('mongodb');
+        
+    //We need to work with "MongoClient" interface in order to connect to a mongodb server.
+    var MongoClient = mongodb.MongoClient;
+        
+    // Connection URL. This is where your mongodb server is running.
+        
+    //to connect: mongod --port 27017 --dbpath=./data --smallfiles
+    //--smallfiles because having a free account doesn't let the program to expand in space.
+        
+    //(Focus on This Variable) //process.env.MONGOLAB_URI ... mongodb://vp:urlshort@ds157390.mlab.com:57390/urlshort
+    var dbUrl = process.env.MONGOLAB_URI || 'mongodb://localhost:27017/C4im';      
+    //(Focus on This Variable)
+        
+    // Use connect method to connect to the Server
+    MongoClient.connect(dbUrl, function (err, db) {
+        if (err) {
+            console.log('Unable to connect to the mongoDB server. Error:', err);
+            cb(err);
+        } else {
+            console.log('Connection established to', dbUrl);
+           
+            var done = db.collection('done');
+            done.find({}, {_id: 0}, function (err, info) { //"{_id: 0}" tells find not to return the _id element"
+                if (err) { console.log("Error in finding Collection"); }
+                //console.log(info);
+                info.toArray(function(err, data) {
+                    if (err) { console.log("Error in searching for documents in Collection"); }
+                        console.log("data..");
+                        console.log(data);
+                        cb(data);
+                    });
+                    
+                });
+            db.close();
+        }
+    });
+}

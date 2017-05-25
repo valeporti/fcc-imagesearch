@@ -1,0 +1,41 @@
+/**
+ * styles.css
+ *
+ * Free Code Camp - API
+ *
+ * Global CSS.
+ */
+ 
+body {
+    margin: 20px;
+}
+.btnPush a{
+    text-decoration: none;
+}
+.btnPush {
+    margin: 2px 5px 5px 5px; /* aqui es este margin el que decide el tamaño del parent */
+    background: #CFCFC4;
+    color: #414141;
+    font-weight: bold;
+    box-shadow: 0 2px gray;
+    position: relative;
+}
+
+.btnPush:active {
+  /* background-color: darkslategray; */
+  box-shadow: 0 2px gray;
+  transform: translateY(2px);
+}
+
+.btnPush:hover {
+    background-color: #CCDFCB;
+}
+
+.ttlBtn {
+    margin: 25px 0;
+    float: right;
+}
+.h1cl {
+    width: 50%;
+    display: inline-block;
+}

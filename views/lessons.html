@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html> 
+  <head>
+      
+    <title>URL Shortener Microservice</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- http://getbootstrap.com/ -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    
+    <!-- app's own CSS -->
+    <link href="/css/styles.css" rel="stylesheet"/>
+    
+  </head>
+  
+  <body>
+      
+    <div class="page-header">
+      <h1>Lessons Learned - Image Search Abstraction Layer</h1>
+    </div>
+    
+    <div class="container">
+        
+      <h4>Lesson 1 - how does callbacks works</h4>
+      <DIR>
+      <p>
+        Pretty interesting to explain: The simplest way to undesrtand them, on my way of view is: 
+      </p>
+      <p>
+        When creating a function and needing to do some stuff in a "synchronous" way, it's a good idea to put a 
+        "<code>callback</code>" variable at the end (it has not to be declared) that will work as the pivot that you build
+        meant to order the function when to end the activity for which you built it and then continue the part of code that is inside 
+        the external function. Let me explain with an example, hope it helps:
+      </p>
+      <pre>
+      --------------- Function declaration (let it be in the scripts.js file for example) --------------
+          function doSomething (variable1, variable2, callback) {
+            if ((variable2 * -1) < 0) then {
+              setTimeOut(function() {
+                cb ("variable2 is positive");
+              }, 3000);
+            } 
+            else {
+              var doSomeAwesomeness = variable1 * variable 2;
+              cb (doSomeAwesomeness);
+            }
+          }
+          
+      --------------- Function usage (let it be in the main.js file for example) ------------------------
+          [... something before ...]
+      
+          doSomething (1, 2, function(stringReturned) {
+            CODE TO DO AFTER CALLBACK
+            //we should expect that because 2 > 0, until 3 seconds later, this code will actually run (because of the "setTimeOut")
+          }
+      
+          [... something after ...]
+      </pre>
+      </DIR>
+       <h4>Lesson 2 - Do a get request in a node.js (express.js) server</h4>
+      <DIR>
+      <p>
+        Simple as:</p> 
+        <p><code>var https = require('https');</code></p>
+        <p><code>https.get(.....)</code></p>
+        <p><a href="http://stackoverflow.com/questions/37632025/in-a-nodejs-app-how-do-i-make-an-http-client-request-inside-an-express-method" target='_blank'>Click...</a></p>
+      
+      </DIR>
+      </DIR>
+       <h4>Lesson 3 - A very useful API to search images and other stuff</h4>
+      <DIR>
+        <p><a href="http://developers.gettyimages.com/en/" target='_blank'>Getty Images API</a></p>
+      </DIR>
+      
+    </div>
+  </body>
+</html>
