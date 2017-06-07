@@ -14,6 +14,7 @@ This is a microservice API project for Free Code Camp that is intended to search
 ## Usage:
 
 Right Entries:
-`https://imagesearch-vp.herokuapp.com/imagesearch/cat?offset=2`
 
-`https://imagesearch-vp.herokuapp.com/last`
+[`https://imagesearch-vp.herokuapp.com/imagesearch/cat?offset=2`](https://imagesearch-vp.herokuapp.com/imagesearch/cat?offset=2) (to search for 2 cats images)
+
+[`https://imagesearch-vp.herokuapp.com/last`](https://imagesearch-vp.herokuapp.com/last) (to see last queries)
